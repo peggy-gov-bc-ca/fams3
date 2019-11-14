@@ -21,6 +21,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using Simple.OData.Client;
+using DynamicsAdapter.Web.MatchFound;
 
 namespace DynamicsAdapter.Web
 {
@@ -105,8 +106,12 @@ namespace DynamicsAdapter.Web
             // Add other Services
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<ISearchRequestService, SearchRequestService>();
+<<<<<<< Updated upstream
          
 
+=======
+            services.AddTransient<IMatchFoundResponseService, MatchFoundResponseService>();
+>>>>>>> Stashed changes
         }
         /// <summary>
         /// Configures the Quartz Hosted Service.

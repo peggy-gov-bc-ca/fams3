@@ -13,11 +13,12 @@ namespace DynamicsAdapter.Web.Test.MatchFound
     {
         private MatchFoundController _sut;
         private readonly Mock<ILogger<MatchFoundController>> _loggerMock = new Mock<ILogger<MatchFoundController>>();
+        private readonly Mock<IMatchFoundResponseService> _matchFoundResponseService = new Mock<IMatchFoundResponseService>();
 
         [SetUp]
         public void Init()
         {
-            _sut = new MatchFoundController(_loggerMock.Object);
+            _sut = new MatchFoundController(_loggerMock.Object, _matchFoundResponseService.Object);
         }
 
         [Test]
