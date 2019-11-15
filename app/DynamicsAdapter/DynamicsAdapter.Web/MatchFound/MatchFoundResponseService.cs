@@ -28,7 +28,8 @@ namespace DynamicsAdapter.Web.MatchFound
         {
             try
             {
-                return await this._oDataClient.For<SSG_Identifier>().Set(identifier).InsertEntryAsync();
+                SSG_Identifier id= await this._oDataClient.For<SSG_Identifier>().Set(identifier).InsertEntryAsync();
+                return id;
             }
             catch (Exception ex)
             {

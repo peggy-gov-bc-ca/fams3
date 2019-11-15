@@ -37,10 +37,14 @@ namespace DynamicsAdapter.Web.MatchFound
             }
 
             SSG_Identifier identifier = new SSG_Identifier();
-            identifier.SSG_Identification = "identification number";
-            identifier.SSG_IdentificationCategoryText = "driver license";
-            identifier.SSG_InforamtionSourceText = "icbc";
-            identifier.SSG_SearchApiRequest = id;
+            identifier.SSG_Identification = "identification number 2";
+            identifier.StateCode = 0;
+            identifier.StatusCode = 1;
+            identifier.ssg_identificationeffectivedate =DateTime.Now;
+            identifier.ssg_SearchAPIRequest = Guid.Parse("7ff9afcf-f1e9-e911-b811-00505683fbf4");
+            //identifier.SSG_IdentificationCategoryText = "driver license";
+            //identifier.SSG_InforamtionSourceText = "icbc";
+           // identifier.ssg_SearchAPIRequest = "dc51d463-5106-ea11-b812-00505683fbf4";
 
             _logger.LogInformation("Received MatchFound response with SearchRequestId is " + id);
 

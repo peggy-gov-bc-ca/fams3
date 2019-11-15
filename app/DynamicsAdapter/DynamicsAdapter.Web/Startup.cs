@@ -101,18 +101,18 @@ namespace DynamicsAdapter.Web
 
             // Register Odata client
             services.AddTransient<IODataClient>(provider =>
-                new ODataClient(provider.GetRequiredService<ODataClientSettings>()));
+            {
+                var oDataClientSettings = provider.GetRequiredService<ODataClientSettings>();
+                oDataClientSettings.IgnoreUnmappedProperties = true;
+                return new ODataClient(oDataClientSettings);
+            });
 
             // Add other Services
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<ISearchRequestService, SearchRequestService>();
-<<<<<<< Updated upstream
-         
-
-=======
             services.AddTransient<IMatchFoundResponseService, MatchFoundResponseService>();
->>>>>>> Stashed changes
         }
+
         /// <summary>
         /// Configures the Quartz Hosted Service.
         /// </summary>
