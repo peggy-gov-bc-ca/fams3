@@ -33,9 +33,10 @@ namespace DynamicsAdapter.Web.Health
                 return HealthCheckResult.Unhealthy("Different Status Reason Exists in dynamics");
             }
 
-            if (!await CheckOptionSet(cancellationToken, TypeService.TypeList))
+            string result = await CheckOptionSet(cancellationToken, TypeService.TypeList);
+            if (result != "Matched")
             {
-                return HealthCheckResult.Unhealthy("Different Option Sets Exists in dynamics");
+                return HealthCheckResult.Unhealthy($"Different Option Sets Exists in dynamics. {result}");
             }
 
 
@@ -87,7 +88,7 @@ namespace DynamicsAdapter.Web.Health
             return optionsList;
         }
 
-        private async Task<bool> CheckOptionSet(CancellationToken cancellationToken, List<string> optionTypes)
+        private async Task<string> CheckOptionSet(CancellationToken cancellationToken, List<string> optionTypes)
         {
             _logger.LogInformation("OptionsSet Match Started!");
             foreach (var optionType in optionTypes)
@@ -97,19 +98,24 @@ namespace DynamicsAdapter.Web.Health
 
                 var types = await _optionSetService.GetAllOptions(optionType, cancellationToken);
                 _logger.LogInformation(
-                     $"Retrieved options set list from dyanmics for {optionType}. {types.Count()} records returned.");
-                foreach (var entityType in GetListOfOptions(optionType))
+                     $"Retrieved options set list from dynamics for {optionType}. {types.Count()} records returned.");
+
+                var enumerationList = GetListOfOptions(optionType);
+                if(enumerationList.Count() != types.Count())
+                {
+                    return $"Matching failed for {optionType}!";
+                }
+
+                foreach (var entityType in enumerationList)
                 {
                
                     if (!types.Any(x => x.Value == entityType.Value && string.Equals(x.Name, entityType.Name, StringComparison.OrdinalIgnoreCase)))
                     {
-                        _logger.LogError(
-                      $"Matching failed for {optionType}, {entityType.Name} not matched!");
-                        return false;
+                        return $"Matching failed for {optionType}, {entityType.Name} not matched!";
                     }
                 }
             }
-            return true;
+            return "Matched";
 
         }
 
