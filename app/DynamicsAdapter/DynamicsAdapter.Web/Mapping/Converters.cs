@@ -47,34 +47,34 @@ namespace DynamicsAdapter.Web.Mapping
 
     public class IDType
     {
-        public static readonly IDictionary<int, PersonalIdentifierType> IDTypeDictionary = new Dictionary<int, PersonalIdentifierType>
+        public static readonly IDictionary<int, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType> IDTypeDictionary = new Dictionary<int, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType>
         {
-            { IdentificationType.DriverLicense.Value, PersonalIdentifierType.DriverLicense },
-            { IdentificationType.SocialInsuranceNumber.Value, PersonalIdentifierType.SocialInsuranceNumber },
-            { IdentificationType.PersonalHealthNumber.Value, PersonalIdentifierType.PersonalHealthNumber },
-            { IdentificationType.BirthCertificate.Value, PersonalIdentifierType.BirthCertificate },
-            { IdentificationType.CorrectionsId.Value, PersonalIdentifierType.CorrectionsId },
-            { IdentificationType.NativeStatusCard.Value, PersonalIdentifierType.NativeStatusCard },
-            { IdentificationType.Passport.Value, PersonalIdentifierType.Passport },
-            { IdentificationType.WorkSafeBCCCN.Value, PersonalIdentifierType.WorkSafeBCCCN },
-             { IdentificationType.BCHydroBP.Value, PersonalIdentifierType.BCHydroBP },
-                   { IdentificationType.BCID.Value, PersonalIdentifierType.BCID },
-            { IdentificationType.Other.Value, PersonalIdentifierType.Other },
+            { IdentificationType.DriverLicense.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.DriverLicense },
+            { IdentificationType.SocialInsuranceNumber.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.SocialInsuranceNumber },
+            { IdentificationType.PersonalHealthNumber.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.PersonalHealthNumber },
+            { IdentificationType.BirthCertificate.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.BirthCertificate },
+            { IdentificationType.CorrectionsId.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.CorrectionsId },
+            { IdentificationType.NativeStatusCard.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.NativeStatusCard },
+            { IdentificationType.Passport.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.Passport },
+            { IdentificationType.WorkSafeBCCCN.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.WorkSafeBCCCN },
+            { IdentificationType.BCHydroBP.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.BCHydroBP },
+            { IdentificationType.BCID.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.BCID },
+            { IdentificationType.Other.Value, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.Other },
            
         };
     }
 
-    public class IdentifierTypeConverter : IValueConverter<int?, PersonalIdentifierType>
+    public class IdentifierTypeConverter : IValueConverter<int?, BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType>
     {      
-        public PersonalIdentifierType Convert(int? source, ResolutionContext context)
+        public BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType Convert(int? source, ResolutionContext context)
         {
-            return source==null? PersonalIdentifierType.Other : IDType.IDTypeDictionary[(int)source];
+            return source==null? BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.Other : IDType.IDTypeDictionary[(int)source];
         }
     }
 
-    public class PersonalIdentifierTypeConverter : IValueConverter<PersonalIdentifierType, int?>
+    public class PersonalIdentifierTypeConverter : IValueConverter<BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType, int?>
     {
-        public int? Convert(PersonalIdentifierType source, ResolutionContext context)
+        public int? Convert(BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType source, ResolutionContext context)
         {
             return IDType.IDTypeDictionary.FirstOrDefault(m => m.Value == source).Key;
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using BcGov.Fams3.SearchApi.Contracts.Person;
 using DynamicsAdapter.Web.PersonSearch;
 using DynamicsAdapter.Web.PersonSearch.Models;
 using Fams3Adapter.Dynamics.Address;
@@ -29,7 +30,7 @@ namespace DynamicsAdapter.Web.Test.PersonSearch
         private Mock<ILogger<PersonSearchController>> _loggerMock ;
         private Mock<ISearchRequestService> _searchRequestServiceMock;
         private Mock<ISearchApiRequestService> _searchApiRequestServiceMock;
-        private PersonSearchCompleted _fakePersonCompletedEvent;
+        private PersonSearchCompletedActual _fakePersonCompletedEvent;
         private PersonSearchAccepted fakePersonAcceptedEvent;
         private PersonSearchFailed fakePersonFailedEvent;
         private PersonSearchRejected fakePersonRejectEvent;
@@ -96,15 +97,15 @@ namespace DynamicsAdapter.Web.Test.PersonSearch
                 }
             };
 
-            _fakePersonCompletedEvent = new PersonSearchCompleted()
+            _fakePersonCompletedEvent = new PersonSearchCompletedActual()
             {
                 SearchRequestId = Guid.NewGuid(),
                 TimeStamp = DateTime.Now,
-                ProviderProfile = new ProviderProfile()
-                {
-                    Name = "TEST PROVIDER"
-                },
-                MatchedPerson = new Person()
+                //ProviderProfile = new BcGov.Fams3.SearchApi.Contracts.PersonSearch.ProviderProfile()
+                //{
+                //    Name = "TEST PROVIDER"
+                //},
+                MatchedPerson = new PersonActual()
                 {
                     DateOfBirth = DateTime.Now,
                     FirstName = "TEST1",
@@ -115,7 +116,7 @@ namespace DynamicsAdapter.Web.Test.PersonSearch
                             {
                                Value  = "test",
                                IssuedBy = "test",
-                               Type = PersonalIdentifierType.DriverLicense
+                               Type = BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.DriverLicense
                             }
                         },
                     Addresses = new List<AddressActual>()
@@ -137,7 +138,7 @@ namespace DynamicsAdapter.Web.Test.PersonSearch
                     {
                         new PhoneNumberActual ()
                         {
-                            PhoneNumber1 = "4005678900"
+                            PhoneNumber = "4005678900"
                         }
                     },
                     Names = new List<NameActual>()
@@ -183,7 +184,7 @@ namespace DynamicsAdapter.Web.Test.PersonSearch
             _mapper.Setup(m => m.Map<SSG_SearchApiEvent>(It.IsAny<PersonSearchFailed>()))
                                .Returns(fakeSearchApiEvent);
 
-            _mapper.Setup(m => m.Map<SSG_SearchApiEvent>(It.IsAny<PersonSearchCompleted>()))
+            _mapper.Setup(m => m.Map<SSG_SearchApiEvent>(It.IsAny<PersonSearchCompletedActual>()))
                                .Returns(fakeSearchApiEvent);
 
             _mapper.Setup(m => m.Map<SSG_Identifier>(It.IsAny<PersonalIdentifier>()))

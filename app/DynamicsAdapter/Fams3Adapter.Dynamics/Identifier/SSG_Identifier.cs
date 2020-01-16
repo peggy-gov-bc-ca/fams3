@@ -25,10 +25,29 @@ namespace Fams3Adapter.Dynamics.Identifier
         [JsonProperty("ssg_informationsourcetext")]
         public int? InformationSource { get; set; }
 
-        [JsonProperty("ssg_identifierissuerid")]
-        public int? IssuedBy { get; set; }
+        [JsonProperty("ssg_issuedby")]
+        public string IssuedBy { get; set; }
 
+        [JsonProperty("ssg_description")]
+        public string Description { get; set; }
 
-        }
+        [JsonProperty("ssg_suppliertypecode")]
+        public string SupplierTypeCode { get; set; }
+
+        [JsonProperty("ssg_notes")]
+        public string Notes { get; set; }
+
+        [JsonProperty("ssg_datadate")]
+        public System.DateTime? Date1 { get; set; }
+
+        [JsonProperty("ssg_datadatelabel")]
+        public string Date1Label { get; set; }
+
+        [JsonProperty("ssg_datadate2")]
+        public System.DateTime? Date2 { get; set; }
+
+        [JsonProperty("ssg_datadatelabel2")]
+        public string Date2Label { get; set; }
+    }
 
 }

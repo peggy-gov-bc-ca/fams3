@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using BcGov.Fams3.SearchApi.Contracts.Person;
 using DynamicsAdapter.Web.Mapping;
 using DynamicsAdapter.Web.PersonSearch;
 using DynamicsAdapter.Web.PersonSearch.Models;
@@ -42,13 +43,24 @@ namespace DynamicsAdapter.Web.Test.Mapping
                 IdentificationEffectiveDate = new DateTime(2001, 1, 1),
                 IdentificationExpirationDate = new DateTime(2001, 1, 1),
                 IdentifierType = IdentificationType.SocialInsuranceNumber.Value,
-                InformationSource = InformationSourceType.Employer.Value
-
+                InformationSource = InformationSourceType.ICBC.Value,
+                IssuedBy = "BC",
+                Description = "Description",
+                SupplierTypeCode = null,
+                Notes = "notes",
+                Date1 = new DateTime(2002, 2, 2),
+                Date1Label = "date1label",
+                Date2 = new DateTime(2003, 2, 2),
+                Date2Label = "date1label"
             };
-            PersonalIdentifier identifier = _mapper.Map<PersonalIdentifier>(sSG_Identifier);
+            PersonalIdentifier identifier = _mapper.Map<PersonalIdentifierActual>(sSG_Identifier);
             Assert.AreEqual("testIdentification", identifier.Value);
-            Assert.AreEqual(new DateTimeOffset(new DateTime(2001, 1, 1)), identifier.EffectiveDate);
-            Assert.AreEqual(new DateTimeOffset(new DateTime(2001, 1, 1)), identifier.ExpirationDate);
+            Assert.AreEqual("Description", identifier.Description);
+            Assert.AreEqual("notes", identifier.Notes);
+            Assert.AreEqual("BC", identifier.IssuedBy);
+            Assert.AreEqual(null, identifier.TypeCode);
+            //Assert.AreEqual(new DateTimeOffset(new DateTime(2001, 1, 1)), identifier.EffectiveDate);
+            //Assert.AreEqual(new DateTimeOffset(new DateTime(2001, 1, 1)), identifier.ExpirationDate);
             Assert.AreEqual(PersonalIdentifierType.SocialInsuranceNumber, identifier.Type);
            
         }
@@ -88,8 +100,8 @@ namespace DynamicsAdapter.Web.Test.Mapping
                 CountryRegion = "canada",
                 ZipPostalCode = "p3p3p3",
                 SuppliedBy = "Employer",
-                EffectiveDate = new DateTimeOffset(new DateTime(2001,1,1)),
-                EndDate= new DateTimeOffset(new DateTime(2002,2,1))
+                //EffectiveDate = new DateTimeOffset(new DateTime(2001,1,1)),
+                //EndDate= new DateTimeOffset(new DateTime(2002,2,1))
             };
             SSG_Address ssg_addr = _mapper.Map<SSG_Address>(address);
             Assert.AreEqual("AddressLine1", ssg_addr.AddressLine1);
@@ -213,7 +225,7 @@ namespace DynamicsAdapter.Web.Test.Mapping
                 {
                     Name = "completedProfile"
                 },
-                MatchedPerson = new Person()
+                MatchedPerson = new PersonActual()
                 {
                     FirstName = "firstName",
                     LastName = "lastName",
@@ -254,7 +266,7 @@ namespace DynamicsAdapter.Web.Test.Mapping
                 {
                     Name = "completedProfile"
                 },
-                MatchedPerson = new Person()
+                MatchedPerson = new PersonActual()
                 {
                     FirstName = "firstName",
                     LastName = "lastName",
@@ -281,16 +293,25 @@ namespace DynamicsAdapter.Web.Test.Mapping
             PersonalIdentifier identifier = new PersonalIdentifierActual()
             {
                 Value = "1111111",
-                ExpirationDate = new DateTimeOffset(new DateTime(2003, 3, 3)),
-                EffectiveDate = new DateTimeOffset(new DateTime(2002, 2, 2)),
-                Type = PersonalIdentifierType.DriverLicense,
-                IssuedBy = "BC"
+                Type = BcGov.Fams3.SearchApi.Contracts.Person.PersonalIdentifierType.DriverLicense,
+                IssuedBy = "BC",
+                Notes = "notes",
+                Description = "description",
+                TypeCode = "FMNO",
+                //ReferenceDates = new List<ReferenceDateActual>() {
+                //    new ReferenceDateActual(){Index = 0, Key="start date", Value = new DateTime(2009,9,1) },
+                //    new ReferenceDateActual(){Index = 1, Key="end date", Value = new DateTime(2019,9,1) }
+                //}
             };
             SSG_Identifier sSG_Identifier = _mapper.Map<SSG_Identifier>(identifier);
             Assert.AreEqual("1111111", sSG_Identifier.Identification);
-            Assert.AreEqual(new DateTime(2002, 2, 2), sSG_Identifier.IdentificationEffectiveDate);
-            Assert.AreEqual(new DateTime(2003, 3, 3), sSG_Identifier.IdentificationExpirationDate);
+            //Assert.AreEqual(new DateTime(2002, 2, 2), sSG_Identifier.IdentificationEffectiveDate);
+            //Assert.AreEqual(new DateTime(2003, 3, 3), sSG_Identifier.IdentificationExpirationDate);
             Assert.AreEqual(IdentificationType.DriverLicense.Value, sSG_Identifier.IdentifierType);
+            Assert.AreEqual("BC", sSG_Identifier.IssuedBy);
+            Assert.AreEqual("notes", sSG_Identifier.Notes);
+            Assert.AreEqual("description", sSG_Identifier.Description);
+            Assert.AreEqual("FMNO", sSG_Identifier.SupplierTypeCode);
             Assert.AreEqual(1, sSG_Identifier.StatusCode);
             Assert.AreEqual(0, sSG_Identifier.StateCode);
         }
@@ -301,7 +322,7 @@ namespace DynamicsAdapter.Web.Test.Mapping
             PhoneNumber phoneNumber = new PhoneNumberActual()
             {
                
-                Date = new DateTimeOffset(new DateTime(2003, 3, 3)),
+                //Date = new DateTimeOffset(new DateTime(2003, 3, 3)),
                 PhoneNumber1 = "6904005678",
                 DateType = "Effective Date",
                 PhoneNumberType = "Home",
@@ -346,8 +367,8 @@ namespace DynamicsAdapter.Web.Test.Mapping
                 LastName = "LastName",
                 MiddleName = "MiddleName",
                 Type = "Legal Name",
-                EffectiveDate = new DateTimeOffset(new DateTime(2001, 1, 1)),
-                EndDate = new DateTimeOffset(new DateTime(2002, 2, 1)),
+                //EffectiveDate = new DateTimeOffset(new DateTime(2001, 1, 1)),
+                //EndDate = new DateTimeOffset(new DateTime(2002, 2, 1)),
                 Description = "test name"
             };
             SSG_Aliase ssg_name = _mapper.Map<SSG_Aliase>(name);

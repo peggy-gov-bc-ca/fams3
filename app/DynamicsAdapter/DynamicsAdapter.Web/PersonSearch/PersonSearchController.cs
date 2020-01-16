@@ -43,7 +43,7 @@ namespace DynamicsAdapter.Web.PersonSearch
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Route("Completed/{id}")]
-        public async Task<IActionResult> Completed(Guid id, [FromBody]PersonSearchCompleted personCompletedEvent)
+        public async Task<IActionResult> Completed(Guid id, [FromBody]PersonSearchCompletedActual personCompletedEvent)
         {
             _logger.LogInformation("Received Person search completed event with SearchRequestId is " + id);
             var cts = new CancellationTokenSource();
@@ -165,20 +165,20 @@ namespace DynamicsAdapter.Web.PersonSearch
             return Ok();
         }
 
-        private async Task<bool> UploadIdentifiers(SSG_SearchRequest request, PersonSearchCompleted personCompletedEvent, CancellationToken concellationToken)
+        private async Task<bool> UploadIdentifiers(SSG_SearchRequest request, PersonSearchCompletedActual personCompletedEvent, CancellationToken concellationToken)
         {
             if (personCompletedEvent.MatchedPerson.Identifiers == null) return true;
             foreach (var matchFoundPersonId in personCompletedEvent.MatchedPerson.Identifiers)
             {
                 SSG_Identifier identifier = _mapper.Map<SSG_Identifier>(matchFoundPersonId);
                 identifier.SSG_SearchRequest = request;
-                identifier.InformationSource = personCompletedEvent.ProviderProfile.DynamicsID();
+                //identifier.InformationSource = personCompletedEvent.ProviderProfile.DynamicsID();
                 var identifer = await _searchRequestService.CreateIdentifier(identifier, concellationToken);
             }
             return true;
         }
 
-        private async Task<bool> UploadAddresses(SSG_SearchRequest request, PersonSearchCompleted personCompletedEvent, CancellationToken concellationToken)
+        private async Task<bool> UploadAddresses(SSG_SearchRequest request, PersonSearchCompletedActual personCompletedEvent, CancellationToken concellationToken)
         {
             if (personCompletedEvent.MatchedPerson.Addresses == null) return true;
             foreach (var address in personCompletedEvent.MatchedPerson.Addresses)
@@ -191,7 +191,7 @@ namespace DynamicsAdapter.Web.PersonSearch
             return true;
         }
 
-        private async Task<bool> UploadPhoneNumbers(SSG_SearchRequest request, PersonSearchCompleted personCompletedEvent, CancellationToken concellationToken)
+        private async Task<bool> UploadPhoneNumbers(SSG_SearchRequest request, PersonSearchCompletedActual personCompletedEvent, CancellationToken concellationToken)
         {
             if (personCompletedEvent.MatchedPerson.PhoneNumbers == null) return true;
             foreach (var phone in personCompletedEvent.MatchedPerson.PhoneNumbers)
@@ -204,7 +204,7 @@ namespace DynamicsAdapter.Web.PersonSearch
             return true;
         }
 
-        private async Task<bool> UploadNames(SSG_SearchRequest request, PersonSearchCompleted personCompletedEvent, CancellationToken concellationToken)
+        private async Task<bool> UploadNames(SSG_SearchRequest request, PersonSearchCompletedActual personCompletedEvent, CancellationToken concellationToken)
         {
             if (personCompletedEvent.MatchedPerson.Names == null) return true;
             foreach (var name in personCompletedEvent.MatchedPerson.Names)
