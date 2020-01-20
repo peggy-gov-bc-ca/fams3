@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BcGov.Fams3.SearchApi.Contracts.Person
 {
-    public interface ReferenceDate
+    public interface ReferenceDate  
     {
         [Description("The index of this date, for dynamics mapping")]
         int Index { get; }
